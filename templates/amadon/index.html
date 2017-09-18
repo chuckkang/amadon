@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title></title>
+	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	 {% load static %}
+	<link rel="stylesheet" href="{% static 'amadon/css/style.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+		<div id="wrapper">
+			{% if errMessage %}
+			<p style="color: red;">{{errMessage}}</p>
+			{% endif %}
+			<div id="formrow">
+				<div id="formcol">Item</div>
+				<div id="formcol">Price</div>
+				<div id="formcol">Quantity</div>
+				<div id="formcol">Purchase</div>
+			</div>
+			 {% for product in request.session.products %}
+			<div id="formrow">
+				
+				<div id="formcol">{{product.product}}</div>
+				<div id="formcol">{{product.price}}</div>
+				<div id="formcol">
+					<form method="POST" action="checkout">
+					<select name="quantity">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</select>
+				</div>
+				
+				
+				<div id="formcol">
+					 {% csrf_token %}
+					<input type="hidden" name="product_id" value="{{product.product_id}}">
+					<input type="submit" value="ORDER">
+					</form>
+				</div>
+			
+				
+			</div>
+			 {% endfor %}
+			 
+		</div>
+
+</body>
+
+</html>
